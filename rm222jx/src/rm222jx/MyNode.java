@@ -6,16 +6,17 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class MyNode<E> extends Node<E> {
-
-    private Set<Node<E>> predecessors = new HashSet<>();
-    private Set<Node<E>> successors = new HashSet<>();
+    // RMC: Hashsets is my way of solving the issue that of unique nodes, silently
+    // not adding.
+    private Set<Node<E>> _predecessors = new HashSet<>();
+    private Set<Node<E>> _successors = new HashSet<>();
 
     protected MyNode(E item) {
         super(item);
     }
 
     public boolean hasSucc(Node<E> node) {
-        return successors.contains(node);
+        return _successors.contains(node);
     }
 
     /**
@@ -24,7 +25,7 @@ public class MyNode<E> extends Node<E> {
      * @return node out-degree
      */
     public int outDegree() {
-        return successors.size();
+        return _successors.size();
     }
 
     /**
@@ -33,7 +34,7 @@ public class MyNode<E> extends Node<E> {
      * @return successor node iterator
      */
     public Iterator<Node<E>> succsOf() {
-        return successors.iterator();
+        return _successors.iterator();
     }
 
     /**
@@ -44,7 +45,7 @@ public class MyNode<E> extends Node<E> {
      * @return boolean
      */
     public boolean hasPred(Node<E> node) {
-        return predecessors.contains(node);
+        return _predecessors.contains(node);
     }
 
     /**
@@ -53,7 +54,7 @@ public class MyNode<E> extends Node<E> {
      * @return node out-degree
      */
     public int inDegree() {
-        return predecessors.size();
+        return _predecessors.size();
     }
 
     /**
@@ -62,35 +63,35 @@ public class MyNode<E> extends Node<E> {
      * @return predecessor node iterator
      */
     public Iterator<Node<E>> predsOf() {
-        return predecessors.iterator();
+        return _predecessors.iterator();
     }
 
     /**
      * Adds node <tt>succ</tt> as a successor to <tt>this</tt> node.
      */
     protected void addSucc(Node<E> succ) {
-        successors.add(succ);
+        _successors.add(succ);
     }
 
     /**
      * Removes node <tt>succ</tt> as a successor to <tt>this</tt> node.
      */
     protected void removeSucc(Node<E> succ) {
-        successors.remove(succ);
+        _successors.remove(succ);
     }
 
     /**
      * Adds node <tt>pred</tt> as a predecessor to <tt>this</tt> node.
      */
     protected void addPred(Node<E> pred) {
-        predecessors.add(pred);
+        _predecessors.add(pred);
     }
 
     /**
      * Removes node <tt>pred</tt> as a predecessor to <tt>this</tt> node.
      */
     protected void removePred(Node<E> pred) {
-        predecessors.remove(pred);
+        _predecessors.remove(pred);
     }
 
     /**
@@ -98,7 +99,7 @@ public class MyNode<E> extends Node<E> {
      * successor, and predecessor, nodes to <tt>this</tt> node.
      */
     protected void disconnect() {
-        predecessors.clear();
-        predecessors.clear();
+        _successors.clear();
+        _predecessors.clear();
     }
 }

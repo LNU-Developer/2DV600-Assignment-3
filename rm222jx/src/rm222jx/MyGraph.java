@@ -4,8 +4,23 @@ import graphs.DirectedGraph;
 import graphs.Node;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 public class MyGraph<E> implements DirectedGraph<E> {
+    // RMC: Hashsets/Map is my way of solving the issue that of unique nodes,
+    // silently not adding.
+    private Map<E, MyNode<E>> _graph = new HashMap<E, MyNode<E>>();
+    private Set<Node<E>> _heads = new HashSet<Node<E>>();
+    private Set<Node<E>> _tails = new HashSet<Node<E>>();
+
+    // RMC: Requirment of a default constructor MyGraph() generating an empty graph.
+    public MyGraph() {
+
+    }
+
     /**
      * Adds a node representing <tt>item</tt> if not added before. Exception is
      * thrown if <tt>item</tt> is null. It returns the node representing
@@ -15,7 +30,15 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> addNodeFor(E item) {
-        return null;
+        if (item == null)
+            throw new IllegalArgumentException("Test");
+
+        MyNode<E> node = new MyNode<E>(item);
+        _heads.add(node);
+        _tails.add(node);
+        _graph.put(item, node);
+        return _graph.get(item);
+
     }
 
     /**
@@ -26,7 +49,10 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> getNodeFor(E item) {
-        return null;
+        if (item == null || !_graph.containsKey(item))
+            throw new IllegalArgumentException("Test");
+
+        return _graph.get(item);
     }
 
     /**
@@ -61,7 +87,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of nodes
      */
     public int nodeCount() {
-        return 0;
+        return _graph.size();
     }
 
     /**
@@ -79,7 +105,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return heads iterator
      */
     public Iterator<Node<E>> heads() {
-        return null;
+        return _heads.iterator();
     }
 
     /**
@@ -97,7 +123,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return tails iterator
      */
     public Iterator<Node<E>> tails() {
-        return null;
+        return _tails.iterator();
     }
 
     /**
