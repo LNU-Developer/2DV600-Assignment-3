@@ -33,7 +33,7 @@ public class MyNode<E> extends Node<E> {
      * @return successor node iterator
      */
     public Iterator<Node<E>> succsOf() {
-
+        return successors.iterator();
     }
 
     /**
@@ -62,7 +62,7 @@ public class MyNode<E> extends Node<E> {
      * @return predecessor node iterator
      */
     public Iterator<Node<E>> predsOf() {
-
+        return predecessors.iterator();
     }
 
     /**
@@ -98,7 +98,7 @@ public class MyNode<E> extends Node<E> {
      * successor, and predecessor, nodes to <tt>this</tt> node.
      */
     protected void disconnect() {
-
+        predecessors.clear();
+        predecessors.clear();
     }
-
 }

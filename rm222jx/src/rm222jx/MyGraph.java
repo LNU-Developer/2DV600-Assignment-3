@@ -1,6 +1,9 @@
 package rm222jx;
 
-import graphs.*;
+import graphs.DirectedGraph;
+import graphs.Node;
+import java.util.Iterator;
+import java.util.List;
 
 public class MyGraph<E> implements DirectedGraph<E> {
     /**
@@ -12,7 +15,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> addNodeFor(E item) {
-
+        return null;
     }
 
     /**
@@ -23,7 +26,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> getNodeFor(E item) {
-
+        return null;
     }
 
     /**
@@ -38,7 +41,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return <tt>true</tt> if edge not added before, otherwise <tt>false</tt>.
      */
     public boolean addEdgeFor(E from, E to) {
-
+        return false;
     }
 
     /**
@@ -49,7 +52,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @param item, node to be checked.
      */
     public boolean containsNodeFor(E item) {
-
+        return false;
     }
 
     /**
@@ -58,7 +61,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of nodes
      */
     public int nodeCount() {
-
+        return 0;
     }
 
     /**
@@ -67,7 +70,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return graph nodes iterator
      */
     public Iterator<Node<E>> iterator() {
-
+        return null;
     }
 
     /**
@@ -76,7 +79,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return heads iterator
      */
     public Iterator<Node<E>> heads() {
-
+        return null;
     }
 
     /**
@@ -85,7 +88,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of head nodes.
      */
     public int headCount() {
-
+        return 0;
     }
 
     /**
@@ -94,7 +97,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return tails iterator
      */
     public Iterator<Node<E>> tails() {
-
+        return null;
     }
 
     /**
@@ -103,7 +106,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of head nodes.
      */
     public int tailCount() {
-
+        return 0;
     }
 
     /**
@@ -112,7 +115,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return list of items
      */
     public List<E> allItems() {
-
+        return null;
     }
 
     /**
@@ -121,7 +124,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return edge count
      */
     public int edgeCount() {
-
+        return 0;
     }
 
     /**
@@ -132,7 +135,6 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @param item, node to be removed.
      */
     public void removeNodeFor(E item) {
-
     }
 
     /**
@@ -145,7 +147,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return <tt>true</tt> if edge in graph, otherwise <tt>false</tt>.
      */
     public boolean containsEdgeFor(E from, E to) {
-
+        return false;
     }
 
     /**
@@ -160,7 +162,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      *         <tt>false</tt>.
      */
     public boolean removeEdgeFor(E from, E to) {
-
+        return false;
     }
 
     /**
@@ -169,7 +171,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      *
      */
     public String toString() {
-
+        return null;
     }
 
 }
