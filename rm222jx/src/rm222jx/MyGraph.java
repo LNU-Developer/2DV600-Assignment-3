@@ -30,15 +30,19 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> addNodeFor(E item) {
-        if (item == null)
+        if (item != null) {
+            // RMC: This check needed otherwise the value gets replaced, while it instead
+            // silent no change was needed.
+            if (!_graph.containsKey(item)) {
+                MyNode<E> node = new MyNode<E>(item);
+                _heads.add(node);
+                _tails.add(node);
+                _graph.put(item, node);
+            }
+            return _graph.get(item);
+        } else {
             throw new IllegalArgumentException("Test");
-
-        MyNode<E> node = new MyNode<E>(item);
-        _heads.add(node);
-        _tails.add(node);
-        _graph.put(item, node);
-        return _graph.get(item);
-
+        }
     }
 
     /**
@@ -67,7 +71,24 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return <tt>true</tt> if edge not added before, otherwise <tt>false</tt>.
      */
     public boolean addEdgeFor(E from, E to) {
-        return false;
+        if (from == null || to == null)
+            throw new IllegalArgumentException("Test");
+
+        MyNode<E> source = (MyNode<E>) addNodeFor(from);
+        MyNode<E> target = (MyNode<E>) addNodeFor(to);
+
+        // RMC: According to method docs the method should return false if the edge was
+        // added before i.e has a successor.
+        if (source.hasSucc(target))
+            return false;
+
+        source.addSucc(target);
+        target.addPred(source);
+
+        _tails.remove(source);
+        _heads.remove(target);
+        return true;
+
     }
 
     /**
@@ -114,7 +135,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of head nodes.
      */
     public int headCount() {
-        return 0;
+        return _heads.size();
     }
 
     /**
@@ -132,7 +153,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return number of head nodes.
      */
     public int tailCount() {
-        return 0;
+        return _tails.size();
     }
 
     /**
@@ -150,7 +171,13 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return edge count
      */
     public int edgeCount() {
-        return 0;
+        int edges = 0;
+        // RMC: Foreach node get the value from the map and count the edge values of
+        // each node
+        for (MyNode<E> node : _graph.values()) {
+            edges += node.outDegree();
+        }
+        return edges;
     }
 
     /**
