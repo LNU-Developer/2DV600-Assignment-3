@@ -366,12 +366,12 @@ public class TestDirectedGraph {
 
 	}
 
-	// @Test
-	// public void testGML() throws Exception {
-	// DirectedGraph<Integer> cyclic = generator.getSmallCyclic();
-	// GML<Integer> gml = new MyGML<Integer>(cyclic);
-	// gml.dumpGML();
-	// }
+	@Test
+	public void testGML() throws Exception {
+		DirectedGraph<Integer> cyclic = generator.getSmallCyclic();
+		GML<Integer> gml = new MyGML<Integer>(cyclic);
+		gml.dumpGML();
+	}
 
 	/*
 	 * ******************************************************** Private help methods
