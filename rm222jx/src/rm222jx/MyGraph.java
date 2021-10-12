@@ -4,6 +4,7 @@ import graphs.DirectedGraph;
 import graphs.Node;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -53,6 +54,9 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> getNodeFor(E item) {
+        // RMC: Exception to be thrown if the key doesn't exist or if the item is null.
+        // Perhaps it should be better to just return null, which would enable me to
+        // reuse this method in e.g. containsNodeFor.
         if (item == null || !_graph.containsKey(item))
             throw new IllegalArgumentException("Test");
 
@@ -99,7 +103,10 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @param item, node to be checked.
      */
     public boolean containsNodeFor(E item) {
-        return false;
+        if (item == null)
+            throw new IllegalArgumentException("Test");
+        // RMC: Get the item and check that it exists
+        return _graph.get(item) != null;
     }
 
     /**
@@ -117,7 +124,18 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return graph nodes iterator
      */
     public Iterator<Node<E>> iterator() {
-        return null;
+        return ConvertToNodeHashMap().values().iterator();
+    }
+
+    // RMC: Method to convert to a hashmap of Nodes
+    private HashMap<E, Node<E>> ConvertToNodeHashMap() {
+        HashMap<E, Node<E>> hashMap = new HashMap<E, Node<E>>();
+
+        // RMC: Foreach node get the add each key and convert to node as value
+        for (MyNode<E> node : _graph.values()) {
+            hashMap.put(node.item(), node);
+        }
+        return hashMap;
     }
 
     /**
@@ -162,7 +180,12 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return list of items
      */
     public List<E> allItems() {
-        return null;
+        List<E> allItems = new ArrayList<>();
+        // RMC: For each node get the values and att them to a list
+        for (MyNode<E> node : _graph.values()) {
+            allItems.add(node.item());
+        }
+        return allItems;
     }
 
     /**
@@ -200,6 +223,15 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return <tt>true</tt> if edge in graph, otherwise <tt>false</tt>.
      */
     public boolean containsEdgeFor(E from, E to) {
+        // RMC: Exception to be thrown if to or from is null.
+        if (from == null || to == null)
+            throw new IllegalArgumentException("Test");
+
+        // RMC: If there exists nodes from both from and to check if from has a
+        // successor in to
+        if (containsNodeFor(from) && containsNodeFor(to))
+            return _graph.get(from).hasSucc(_graph.get(to));
+
         return false;
     }
 

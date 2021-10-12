@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class MyNode<E> extends Node<E> {
     // RMC: Hashsets is my way of solving the issue that of unique nodes, silently
-    // not adding.
+    // not adding. Also reusing thought process from my solution from Assignment 2.
     private Set<Node<E>> _predecessors = new HashSet<>();
     private Set<Node<E>> _successors = new HashSet<>();
 
