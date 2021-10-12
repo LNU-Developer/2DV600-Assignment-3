@@ -4,7 +4,10 @@ import graphs.DFS;
 import graphs.DirectedGraph;
 import graphs.Node;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Iterator;
 
 public class MyDFS<E> implements DFS<E> {
     /**
@@ -15,10 +18,11 @@ public class MyDFS<E> implements DFS<E> {
         nullChecker(graph);
         nullChecker(root);
 
-        // RMC: Linked hashsset was picked due to the properties of the HashSet. Our
-        // goal is to find all visited nodes.
-        List<Node<E>> x = new ArrayList<Node<E>>();
-        return x;
+        // RMC: Linked hashsset was picked due to the properties of the HashSet as well
+        // as our need to preserve order. Our goal is to find all visited nodes.
+        Set<Node<E>> visitedNodes = new LinkedHashSet<Node<E>>();
+        performDFS(root, visitedNodes);
+        return new ArrayList<Node<E>>(visitedNodes);
     }
 
     /**
@@ -28,8 +32,34 @@ public class MyDFS<E> implements DFS<E> {
      */
     public List<Node<E>> dfs(DirectedGraph<E> graph) {
         nullChecker(graph);
-        List<Node<E>> x = new ArrayList<Node<E>>();
-        return x;
+        // RMC: In this case there can be several heads that has no connection to
+        // eachother, as such I need to check heads independantly
+
+        Set<Node<E>> visited = new LinkedHashSet<>();
+
+        Iterator<Node<E>> heads = graph.heads();
+        heads.forEachRemaining(node -> performDFS(node, visited));
+
+        return new ArrayList<Node<E>>(visited);
+    }
+
+    private void performDFS(Node<E> currentNode, Set<Node<E>> visitedNodes) {
+        // RMC: If it already visited this node, it shoulnd't proceed
+        if (visitedNodes.contains(currentNode))
+            return;
+
+        // RMC: Adding all numbering to the current node. Since this increases with the
+        // visited set size I can remove the need for keeping a global property.
+        currentNode.num = visitedNodes.size();
+        // RMC: Adding current node to visited list reference (this will be saved for
+        // the future due to it being a reference)
+        visitedNodes.add(currentNode);
+
+        // RMC: Finds all successors of a node
+        Iterator<Node<E>> successors = currentNode.succsOf();
+
+        // RMC: runs this operation as long as there are nodes
+        successors.forEachRemaining(successor -> performDFS(successor, visitedNodes));
     }
 
     /**

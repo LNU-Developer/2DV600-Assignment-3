@@ -122,68 +122,65 @@ public class TestDFS {
 		}
 	}
 
-	// @Test
-	// public void testBFS() throws Exception {
-	// DirectedGraph<Integer> dg = generator.getTwoParts();
-	// Integer[] i = generator.getUsedItems();
-	// Node<Integer> root1 = dg.getNodeFor(i[0]);
-	// Node<Integer> root2 = dg.getNodeFor(i[10]);
+	@Test
+	public void testBFS() throws Exception {
+		DirectedGraph<Integer> dg = generator.getTwoParts();
+		Integer[] i = generator.getUsedItems();
+		Node<Integer> root1 = dg.getNodeFor(i[0]);
+		Node<Integer> root2 = dg.getNodeFor(i[10]);
 
-	// BFS<Integer> bfs = new MyBFS<Integer>();
+		BFS<Integer> bfs = new MyBFS<Integer>();
 
-	// /* Test cyclic part with root1 */
-	// List<Node<Integer>> list = bfs.bfs(dg, root1);
-	// assertEquals(list.size(), 7);
-	// int start = list.get(0).num;
-	// for (int j = 0; j < list.size(); j++) {
-	// Node<Integer> node = list.get(j);
-	// assertEquals(j + start, node.num);
-	// }
-	// assertSame(list.get(0), root1);
-	// assertSame(list.get(3), dg.getNodeFor(i[3]));
-	// assertTrue(list.indexOf(dg.getNodeFor(i[3])) <
-	// list.indexOf(dg.getNodeFor(i[4])));
-	// assertTrue(list.indexOf(dg.getNodeFor(i[4])) <
-	// list.indexOf(dg.getNodeFor(i[5])));
-	// System.out.println("\tCyclic bfs-order[0]: " + list);
+		/* Test cyclic part with root1 */
+		List<Node<Integer>> list = bfs.bfs(dg, root1);
+		assertEquals(list.size(), 7);
+		int start = list.get(0).num;
+		for (int j = 0; j < list.size(); j++) {
+			Node<Integer> node = list.get(j);
+			assertEquals(j + start, node.num);
+		}
+		assertSame(list.get(0), root1);
+		assertSame(list.get(3), dg.getNodeFor(i[3]));
+		assertTrue(list.indexOf(dg.getNodeFor(i[3])) < list.indexOf(dg.getNodeFor(i[4])));
+		assertTrue(list.indexOf(dg.getNodeFor(i[4])) < list.indexOf(dg.getNodeFor(i[5])));
+		System.out.println("\tCyclic bfs-order[0]: " + list);
 
-	// /* Test acyclic part with root2 */
-	// list = bfs.bfs(dg, root2);
-	// assertEquals(list.size(), 7);
-	// start = list.get(0).num;
-	// for (int j = 0; j < list.size(); j++) {
-	// Node<Integer> node = list.get(j);
-	// assertEquals(j + start, node.num);
-	// }
-	// assertSame(list.get(0), dg.getNodeFor(i[10]));
-	// assertTrue(list.get(6) == dg.getNodeFor(i[15]) || list.get(6) ==
-	// dg.getNodeFor(i[16]));
-	// assertSame(list.get(3), dg.getNodeFor(i[13]));
-	// System.out.println("\tAcyclic bfs-order[10]: " + list);
+		/* Test acyclic part with root2 */
+		list = bfs.bfs(dg, root2);
+		assertEquals(list.size(), 7);
+		start = list.get(0).num;
+		for (int j = 0; j < list.size(); j++) {
+			Node<Integer> node = list.get(j);
+			assertEquals(j + start, node.num);
+		}
+		assertSame(list.get(0), dg.getNodeFor(i[10]));
+		assertTrue(list.get(6) == dg.getNodeFor(i[15]) || list.get(6) == dg.getNodeFor(i[16]));
+		assertSame(list.get(3), dg.getNodeFor(i[13]));
+		System.out.println("\tAcyclic bfs-order[10]: " + list);
 
-	// /* Test other start nodes */
-	// Node<Integer> n = dg.getNodeFor(i[4]);
-	// list = bfs.bfs(dg, n);
-	// assertEquals(list.size(), 5);
+		/* Test other start nodes */
+		Node<Integer> n = dg.getNodeFor(i[4]);
+		list = bfs.bfs(dg, n);
+		assertEquals(list.size(), 5);
 
-	// n = dg.getNodeFor(i[6]);
-	// list = bfs.bfs(dg, n);
-	// assertEquals(list.size(), 1);
+		n = dg.getNodeFor(i[6]);
+		list = bfs.bfs(dg, n);
+		assertEquals(list.size(), 1);
 
-	// n = dg.getNodeFor(i[13]);
-	// list = bfs.bfs(dg, n);
-	// assertEquals(list.size(), 4);
+		n = dg.getNodeFor(i[13]);
+		list = bfs.bfs(dg, n);
+		assertEquals(list.size(), 4);
 
-	// /* Test graph with two heads */
-	// list = bfs.bfs(dg);
-	// System.out.println("\tTwoParts dfs-order: " + list);
-	// assertEquals(list.size(), dg.nodeCount());
-	// start = list.get(0).num;
-	// for (int j = 0; j < list.size(); j++) {
-	// Node<Integer> node = list.get(j);
-	// assertEquals(j + start, node.num);
-	// }
-	// }
+		/* Test graph with two heads */
+		list = bfs.bfs(dg);
+		System.out.println("\tTwoParts dfs-order: " + list);
+		assertEquals(list.size(), dg.nodeCount());
+		start = list.get(0).num;
+		for (int j = 0; j < list.size(); j++) {
+			Node<Integer> node = list.get(j);
+			assertEquals(j + start, node.num);
+		}
+	}
 
 	@Test
 	public void testPostOrder() throws Exception {
