@@ -9,13 +9,18 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 
 public class MyGraph<E> implements DirectedGraph<E> {
     // RMC: Hashsets/Map is my way of solving the issue that of unique nodes,
     // silently not adding.
     private Map<E, MyNode<E>> _graph = new HashMap<E, MyNode<E>>();
-    private Set<Node<E>> _heads = new HashSet<Node<E>>();
-    private Set<Node<E>> _tails = new HashSet<Node<E>>();
+    private Set<Node<E>> _heads = new HashSet<Node<E>>(); // RMC: To make it easier to iterate through the heads,
+                                                          // however tradeoff in that I need to keep track of and remove
+                                                          // these in other methods.
+    private Set<Node<E>> _tails = new HashSet<Node<E>>(); // RMC: To make it easier to iterate through the heads,
+                                                          // however tradeoff in that I need to keep track of and handle
+                                                          // these in other methods.
 
     // RMC: Requirment of a default constructor MyGraph() generating an empty graph.
     public MyGraph() {
@@ -31,19 +36,16 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return Node representing <tt>item</tt>
      */
     public Node<E> addNodeFor(E item) {
-        if (item != null) {
-            // RMC: This check needed otherwise the value gets replaced, while it instead
-            // silent no change was needed.
-            if (!_graph.containsKey(item)) {
-                MyNode<E> node = new MyNode<E>(item);
-                _heads.add(node);
-                _tails.add(node);
-                _graph.put(item, node);
-            }
-            return _graph.get(item);
-        } else {
-            throw new IllegalArgumentException("Test");
+        nullChecker(item);
+        // RMC: This check needed otherwise the value gets replaced, while it instead
+        // silent no change was needed.
+        if (!_graph.containsKey(item)) {
+            MyNode<E> node = new MyNode<E>(item);
+            _heads.add(node);
+            _tails.add(node);
+            _graph.put(item, node);
         }
+        return _graph.get(item);
     }
 
     /**
@@ -57,9 +59,8 @@ public class MyGraph<E> implements DirectedGraph<E> {
         // RMC: Exception to be thrown if the key doesn't exist or if the item is null.
         // Perhaps it should be better to just return null, which would enable me to
         // reuse this method in e.g. containsNodeFor.
-        if (item == null || !_graph.containsKey(item))
-            throw new IllegalArgumentException("Test");
-
+        nullChecker(item);
+        existChecker(item);
         return _graph.get(item);
     }
 
@@ -75,20 +76,23 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return <tt>true</tt> if edge not added before, otherwise <tt>false</tt>.
      */
     public boolean addEdgeFor(E from, E to) {
-        if (from == null || to == null)
-            throw new IllegalArgumentException("Test");
+        nullChecker(from);
+        nullChecker(to);
 
         MyNode<E> source = (MyNode<E>) addNodeFor(from);
         MyNode<E> target = (MyNode<E>) addNodeFor(to);
 
         // RMC: According to method docs the method should return false if the edge was
-        // added before i.e has a successor.
-        if (source.hasSucc(target))
+        // added before i.e has a successor or predecessor.
+        if (source.hasSucc(target) && target.hasPred(source))
             return false;
 
+        // RMC: Add the target as successor to source and add source as predecessor
+        // to target. This is where linking happens.
         source.addSucc(target);
         target.addPred(source);
 
+        // RMC: Due to handling of heads/tails as properties.
         _tails.remove(source);
         _heads.remove(target);
         return true;
@@ -103,8 +107,7 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @param item, node to be checked.
      */
     public boolean containsNodeFor(E item) {
-        if (item == null)
-            throw new IllegalArgumentException("Test");
+        nullChecker(item);
         // RMC: Get the item and check that it exists
         return _graph.get(item) != null;
     }
@@ -127,23 +130,15 @@ public class MyGraph<E> implements DirectedGraph<E> {
         return ConvertToNodeHashMap().values().iterator();
     }
 
-    // RMC: Method to convert to a hashmap of Nodes
-    private HashMap<E, Node<E>> ConvertToNodeHashMap() {
-        HashMap<E, Node<E>> hashMap = new HashMap<E, Node<E>>();
-
-        // RMC: Foreach node get the add each key and convert to node as value
-        for (MyNode<E> node : _graph.values()) {
-            hashMap.put(node.item(), node);
-        }
-        return hashMap;
-    }
-
     /**
      * Returns an iterator over all nodes with no in-edges.
      *
      * @return heads iterator
      */
     public Iterator<Node<E>> heads() {
+        // RMC: Due to my creating a specific property for heads/tails, I can can call
+        // the iterator method directly on the property instead of looping through and
+        // checking each item if they are a head/tail.
         return _heads.iterator();
     }
 
@@ -162,6 +157,9 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @return tails iterator
      */
     public Iterator<Node<E>> tails() {
+        // RMC: Due to my creating a specific property for heads/tails, I can can call
+        // the iterator method directly on the property instead of looping through and
+        // checking each item if they are a head/tail.
         return _tails.iterator();
     }
 
@@ -211,6 +209,25 @@ public class MyGraph<E> implements DirectedGraph<E> {
      * @param item, node to be removed.
      */
     public void removeNodeFor(E item) {
+        nullChecker(item);
+        existChecker(item);
+
+        MyNode<E> nodeToDelete = (MyNode<E>) getNodeFor(item);
+        // RMC remove the linkage on all nodes connected to the node being removed
+        for (MyNode<E> node : _graph.values()) {
+            if (node.hasPred(nodeToDelete)) {
+                node.removePred(nodeToDelete);
+            }
+
+            if (node.hasSucc(nodeToDelete)) {
+                node.removeSucc(nodeToDelete);
+            }
+        }
+        // RMC: Finally able to disconnect/remove the node from the list. Also if node
+        // is removed all the head/tails are also removed. As such we don't readd these
+        // to head/tail
+        nodeToDelete.disconnect();
+        _graph.remove(item);
     }
 
     /**
@@ -224,8 +241,8 @@ public class MyGraph<E> implements DirectedGraph<E> {
      */
     public boolean containsEdgeFor(E from, E to) {
         // RMC: Exception to be thrown if to or from is null.
-        if (from == null || to == null)
-            throw new IllegalArgumentException("Test");
+        nullChecker(from);
+        nullChecker(to);
 
         // RMC: If there exists nodes from both from and to check if from has a
         // successor in to
@@ -247,7 +264,31 @@ public class MyGraph<E> implements DirectedGraph<E> {
      *         <tt>false</tt>.
      */
     public boolean removeEdgeFor(E from, E to) {
-        return false;
+        // RMC: Exception to be thrown if to or from is null.
+        nullChecker(from);
+        nullChecker(to);
+
+        // RMC: if the node d
+        if (!containsEdgeFor(from, to))
+            return false;
+
+        MyNode<E> source = (MyNode<E>) getNodeFor(from);
+        MyNode<E> target = (MyNode<E>) getNodeFor(to);
+
+        // RMC: Reversing what is done in the addEdge for. Removing
+        // successor/predecessor link.
+        source.removeSucc(target);
+        target.removePred(source);
+
+        // RMC: Also reversing what is done in the addEgde method. If they are
+        // tails/heads they are added to these lists for further handling.
+        if (source.isTail())
+            _tails.add(source);
+
+        if (target.isHead())
+            _heads.add(target);
+
+        return true;
     }
 
     /**
@@ -257,6 +298,30 @@ public class MyGraph<E> implements DirectedGraph<E> {
      */
     public String toString() {
         return null;
+    }
+
+    // RMC: Method to convert to a hashmap of Nodes
+    private HashMap<E, Node<E>> ConvertToNodeHashMap() {
+        HashMap<E, Node<E>> hashMap = new HashMap<E, Node<E>>();
+
+        // RMC: Foreach node get the add each key and convert to node as value
+        for (MyNode<E> node : _graph.values()) {
+            hashMap.put(node.item(), node);
+        }
+        return hashMap;
+    }
+
+    // RMC: Helper method to check for null and throw an exception.
+    private void nullChecker(E item) {
+        if (item == null)
+            throw new IllegalArgumentException("Test");
+    }
+
+    // RMC: Helper method to check for element and throw an exception if it doesn't
+    // exist
+    private void existChecker(E item) {
+        if (!_graph.containsKey(item))
+            throw new NoSuchElementException();
     }
 
 }

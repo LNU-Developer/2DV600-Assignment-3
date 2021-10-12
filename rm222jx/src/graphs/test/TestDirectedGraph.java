@@ -188,13 +188,13 @@ public class TestDirectedGraph {
 		}
 		assertTrue(b);
 
-		// b = false;
-		// try {
-		// dg.removeNodeFor(null);
-		// } catch (Exception e) {
-		// b = true;
-		// }
-		// assertTrue(b);
+		b = false;
+		try {
+			dg.removeNodeFor(null);
+		} catch (Exception e) {
+			b = true;
+		}
+		assertTrue(b);
 
 		b = false;
 		try {
@@ -222,14 +222,14 @@ public class TestDirectedGraph {
 		}
 		assertTrue(b);
 
-		// b = false;
-		// try {
-		// dg.removeEdgeFor(err, null);
-		// } catch (Exception e) {
-		// b = true;
-		// assertFalse(dg.containsNodeFor(err));
-		// }
-		// assertTrue(b);
+		b = false;
+		try {
+			dg.removeEdgeFor(err, null);
+		} catch (Exception e) {
+			b = true;
+			assertFalse(dg.containsNodeFor(err));
+		}
+		assertTrue(b);
 
 		/* Test non-existing exceptions */
 		b = false;
@@ -240,13 +240,13 @@ public class TestDirectedGraph {
 		}
 		assertTrue(b);
 
-		// b = false;
-		// try {
-		// dg.removeNodeFor(err);
-		// } catch (Exception e) {
-		// b = true;
-		// }
-		// assertTrue(b);
+		b = false;
+		try {
+			dg.removeNodeFor(err);
+		} catch (Exception e) {
+			b = true;
+		}
+		assertTrue(b);
 
 	}
 
