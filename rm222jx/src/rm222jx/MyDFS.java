@@ -35,12 +35,12 @@ public class MyDFS<E> implements DFS<E> {
         // RMC: In this case there can be several heads that has no connection to
         // eachother, as such I need to check heads independantly
 
-        Set<Node<E>> visited = new LinkedHashSet<>();
+        Set<Node<E>> visitedNodes = new LinkedHashSet<>();
 
         Iterator<Node<E>> heads = graph.heads();
-        heads.forEachRemaining(node -> performDFS(node, visited));
+        heads.forEachRemaining(node -> performDFS(node, visitedNodes));
 
-        return new ArrayList<Node<E>>(visited);
+        return new ArrayList<Node<E>>(visitedNodes);
     }
 
     private void performDFS(Node<E> currentNode, Set<Node<E>> visitedNodes) {
