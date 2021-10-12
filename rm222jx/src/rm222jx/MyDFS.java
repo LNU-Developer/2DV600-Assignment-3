@@ -3,6 +3,7 @@ package rm222jx;
 import graphs.DFS;
 import graphs.DirectedGraph;
 import graphs.Node;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyDFS<E> implements DFS<E> {
@@ -11,7 +12,13 @@ public class MyDFS<E> implements DFS<E> {
      * root node. Each visited node is also attached with a depth-first number.
      */
     public List<Node<E>> dfs(DirectedGraph<E> graph, Node<E> root) {
+        nullChecker(graph);
+        nullChecker(root);
 
+        // RMC: Linked hashsset was picked due to the properties of the HashSet. Our
+        // goal is to find all visited nodes.
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
     }
 
     /**
@@ -20,7 +27,9 @@ public class MyDFS<E> implements DFS<E> {
      * a depth-first number.
      */
     public List<Node<E>> dfs(DirectedGraph<E> graph) {
-
+        nullChecker(graph);
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
     }
 
     /**
@@ -31,6 +40,10 @@ public class MyDFS<E> implements DFS<E> {
      * The algorithm also attaches a post-order number to each visited node.
      */
     public List<Node<E>> postOrder(DirectedGraph<E> g, Node<E> root) {
+        nullChecker(g);
+        nullChecker(root);
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
     }
 
     /**
@@ -41,7 +54,9 @@ public class MyDFS<E> implements DFS<E> {
      * The algorithm also attaches a post-order number to each visited node.
      */
     public List<Node<E>> postOrder(DirectedGraph<E> g) {
-
+        nullChecker(g);
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
     }
 
     /**
@@ -53,7 +68,9 @@ public class MyDFS<E> implements DFS<E> {
      * <tt>true</tt>, otherwise it attaches a post-order number.
      */
     public List<Node<E>> postOrder(DirectedGraph<E> g, boolean attach_dfs_number) {
-
+        nullChecker(g);
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
     }
 
     /**
@@ -61,7 +78,7 @@ public class MyDFS<E> implements DFS<E> {
      * <tt>false</tt>
      */
     public boolean isCyclic(DirectedGraph<E> graph) {
-
+        return false;
     }
 
     /**
@@ -70,7 +87,21 @@ public class MyDFS<E> implements DFS<E> {
      * undefined.
      */
     public List<Node<E>> topSort(DirectedGraph<E> graph) {
+        nullChecker(graph);
+        List<Node<E>> x = new ArrayList<Node<E>>();
+        return x;
+    }
 
+    private void nullChecker(DirectedGraph<E> g) {
+        if (g == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    private void nullChecker(Node<E> n) {
+        if (n == null) {
+            throw new NullPointerException();
+        }
     }
 
 }
