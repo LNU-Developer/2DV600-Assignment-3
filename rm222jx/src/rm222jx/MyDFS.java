@@ -112,6 +112,20 @@ public class MyDFS<E> implements DFS<E> {
      * <tt>false</tt>
      */
     public boolean isCyclic(DirectedGraph<E> graph) {
+        for (Node<E> node : postOrder(graph)) { // RMC: Nice way of doing post order ordering in connection to the for
+                                                // loop.
+            // RMC: getting all successors of a node
+            Iterator<Node<E>> successors = node.succsOf();
+
+            // RMC: Iteration through nodes.
+            while (successors.hasNext()) {
+                // RMC: Checking if any backward edges
+                if (successors.next().num >= node.num) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
