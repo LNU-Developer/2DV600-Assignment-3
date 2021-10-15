@@ -297,7 +297,36 @@ public class MyGraph<E> implements DirectedGraph<E> {
      *
      */
     public String toString() {
-        return null; // TODO: Fix this implementation
+        StringBuilder sb = new StringBuilder();
+
+        for (MyNode<E> node : _graph.values()) {
+            sb.append("Node: " + node.item());
+
+            sb.append("\t Successors:");
+            sb.append(stringPoints(node.succsOf()));
+
+            sb.append("\t Predecessors:");
+            sb.append(stringPoints(node.predsOf()));
+        }
+
+        return sb.toString();
+    }
+
+    private String stringPoints(Iterator<Node<E>> tmp) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t[ ");
+
+        while (tmp.hasNext()) {
+            sb.append(tmp.next());
+
+            if (tmp.hasNext()) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append(" ] \n");
+
+        return sb.toString();
     }
 
     // RMC: Method to convert to a hashmap of Nodes

@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Collections;
 
 public class MyDFS<E> implements DFS<E> {
     /**
@@ -136,8 +137,11 @@ public class MyDFS<E> implements DFS<E> {
      */
     public List<Node<E>> topSort(DirectedGraph<E> graph) {
         nullChecker(graph);
-        List<Node<E>> x = new ArrayList<Node<E>>();
-        return x; // TODO: Implement
+        // RMC: Topological sort is in theory reverse post-order meaning we can call the
+        // post order method and reverse the result.
+        List<Node<E>> postOrderList = postOrder(graph);
+        Collections.reverse(postOrderList);
+        return postOrderList;
     }
 
     private void performDFS(Node<E> currentNode, Set<Node<E>> visitedNodes) {
