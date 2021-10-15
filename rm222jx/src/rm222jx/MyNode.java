@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyNode.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.Node;
@@ -5,6 +11,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * Class Description: My implementation of the node class that a node.
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyNode<E> extends Node<E> {
     // RMC: Hashsets is my way of solving the issue that of unique nodes, silently
     // not adding. Also reusing thought process from my solution from Assignment 2.

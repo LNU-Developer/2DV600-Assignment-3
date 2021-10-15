@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyGML.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.DirectedGraph;
@@ -5,6 +11,14 @@ import graphs.GML;
 import graphs.Node;
 import java.util.Iterator;
 
+/**
+ * Class Description: My implementation of the GML class which can print a
+ * string representation of a directed graph
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyGML<E> extends GML<E> {
     public MyGML(DirectedGraph<E> dg) {
         super(dg);

@@ -1,3 +1,8 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyDFS.java
+ * Author: Rickard Marjanovic
+ */
 package rm222jx;
 
 import graphs.DFS;
@@ -11,6 +16,14 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Collections;
 
+/**
+ * Class Description: My implementation of the Depth first class which performs
+ * said algoritm on graphs
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyDFS<E> implements DFS<E> {
     /**
      * Returns the nodes visited by a depth first search starting from the given
@@ -144,6 +157,12 @@ public class MyDFS<E> implements DFS<E> {
         return postOrderList;
     }
 
+    /**
+     * Method to perform depth first search .
+     *
+     * @param currentNode  current node to begin post sorting
+     * @param visitedNodes all already visited nodes
+     */
     private void performDFS(Node<E> currentNode, Set<Node<E>> visitedNodes) {
         // RMC: If it already visited this node, it shoulnd't proceed
         if (visitedNodes.contains(currentNode))
@@ -163,6 +182,13 @@ public class MyDFS<E> implements DFS<E> {
         successors.forEachRemaining(successor -> performDFS(successor, visitedNodes));
     }
 
+    /**
+     * Method to perform post order sorting.
+     *
+     * @param currentNode      current node to begin post sorting
+     * @param visitedNodes     all already visited nodes
+     * @param postOrderedNodes all nodes ordered according to post order
+     */
     private void performPostOrder(Node<E> currentNode, Set<Node<E>> visitedNodes, List<Node<E>> postOrderedNodes) {
         // RMC: If it already visited this node, it shoulnd't proceed
         if (visitedNodes.contains(currentNode))
@@ -186,12 +212,22 @@ public class MyDFS<E> implements DFS<E> {
         postOrderedNodes.add(currentNode);
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param g a directed graph object of type E
+     */
     private void nullChecker(DirectedGraph<E> g) {
         if (g == null) {
             throw new NullPointerException();
         }
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param n node object of type E
+     */
     private void nullChecker(Node<E> n) {
         if (n == null) {
             throw new NullPointerException();

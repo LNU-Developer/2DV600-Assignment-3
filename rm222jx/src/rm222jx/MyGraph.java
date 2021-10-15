@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyGraph.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.DirectedGraph;
@@ -11,6 +17,15 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 
+/**
+ * Class Description: My implementation of the graph class that Represents a
+ * directed graph, which can contain nodes and edges connecting nodes to each
+ * other.
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyGraph<E> implements DirectedGraph<E> {
     // RMC: Hashsets/Map is my way of solving the issue that of unique nodes,
     // silently not adding.
@@ -312,6 +327,13 @@ public class MyGraph<E> implements DirectedGraph<E> {
         return sb.toString();
     }
 
+    /**
+     * Method that iterates through a provided iteration of nodes and creates a
+     * representation string for it *
+     *
+     * @param tmp, Iterator object of nodes
+     * @return a string representation of the nodes
+     */
     private String stringPoints(Iterator<Node<E>> tmp) {
         StringBuilder sb = new StringBuilder();
         sb.append("\t[ ");
@@ -329,7 +351,11 @@ public class MyGraph<E> implements DirectedGraph<E> {
         return sb.toString();
     }
 
-    // RMC: Method to convert to a hashmap of Nodes
+    /**
+     * Method to convert to a hashmap of Nodes
+     *
+     * @return a hashmap of all nodes
+     */
     private HashMap<E, Node<E>> ConvertToNodeHashMap() {
         HashMap<E, Node<E>> hashMap = new HashMap<E, Node<E>>();
 
@@ -340,14 +366,21 @@ public class MyGraph<E> implements DirectedGraph<E> {
         return hashMap;
     }
 
-    // RMC: Helper method to check for null and throw an exception.
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param E object
+     */
     private void nullChecker(E item) {
         if (item == null)
-            throw new IllegalArgumentException("Test");
+            throw new NullPointerException();
     }
 
-    // RMC: Helper method to check for element and throw an exception if it doesn't
-    // exist
+    /**
+     * Helper method to check for element and throw an exception if it doesn't exist
+     *
+     * @param E object
+     */
     private void existChecker(E item) {
         if (!_graph.containsKey(item))
             throw new NoSuchElementException();

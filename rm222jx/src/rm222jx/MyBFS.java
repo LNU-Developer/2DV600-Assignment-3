@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyBFS.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.BFS;
@@ -11,6 +17,14 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Queue;
 
+/**
+ * Class Description: My implementation of the Breadth first class which
+ * performs said algoritm on graphs
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyBFS<E> implements BFS<E> {
     /**
      * Returns the nodes visited by a breadth-first search starting from the given
@@ -39,16 +53,23 @@ public class MyBFS<E> implements BFS<E> {
         return new ArrayList<>(visitedNodes);
     }
 
-    private void performBFS(Node<E> node, Set<Node<E>> visitedNodes) {
+    /**
+     * Method to perform breadth first search .
+     *
+     * @param currentNode  current node to begin post sorting
+     * @param visitedNodes all already visited nodes
+     */
+    private void performBFS(Node<E> currentNode, Set<Node<E>> visitedNodes) {
         // RMC: I will need a queue to process all nodes that are direct successors
         // first and then move on the the next ones.
         Queue<Node<E>> queue = new LinkedList<>();
         // RMC Adding new node to queue to process its successors, as well as adding it
         // to the visited node
-        queue.add(node);
-        node.num = visitedNodes.size(); // RMC: Adding all numbering to the current node. Since this increases with the
-        // visited set size I can remove the need for keeping a global property.
-        visitedNodes.add(node);
+        queue.add(currentNode);
+        currentNode.num = visitedNodes.size(); // RMC: Adding all numbering to the current node. Since this increases
+                                               // with the visited set size I can remove the need for keeping a global
+                                               // property.
+        visitedNodes.add(currentNode);
 
         // RMC while i.e node doesn't have any successors left.
         while (!queue.isEmpty()) {
@@ -75,12 +96,22 @@ public class MyBFS<E> implements BFS<E> {
         }
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param g a directed graph object of type E
+     */
     private void nullChecker(DirectedGraph<E> g) {
         if (g == null) {
             throw new NullPointerException();
         }
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param n node object of type E
+     */
     private void nullChecker(Node<E> n) {
         if (n == null) {
             throw new NullPointerException();

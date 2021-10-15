@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyConnectedComponents.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.ConnectedComponents;
@@ -13,7 +19,20 @@ import java.util.HashSet;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Class Description: My implementation of the connected components class which
+ * can compute if there are any connected componenets within a directed graph
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyConnectedComponents<E> implements ConnectedComponents<E> {
+    /**
+     * Method to find all connected components.
+     *
+     * @param dg a directed graph object of type E
+     */
     public Collection<Collection<Node<E>>> computeComponents(DirectedGraph<E> dg) {
         nullChecker(dg);
 
@@ -60,6 +79,11 @@ public class MyConnectedComponents<E> implements ConnectedComponents<E> {
         return allComponents;
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param dg a directed graph object of type E
+     */
     private void nullChecker(DirectedGraph<E> dg) {
         if (dg == null) {
             throw new NullPointerException();

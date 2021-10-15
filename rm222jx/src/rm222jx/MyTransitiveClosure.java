@@ -1,3 +1,9 @@
+/*
+ * Date: 2021-10-15
+ * File Name: MyTransitiveClosure.java
+ * Author: Rickard Marjanovic
+ */
+
 package rm222jx;
 
 import graphs.DirectedGraph;
@@ -10,6 +16,14 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Collection;
 
+/**
+ * Class Description: My implementation of the transisite closure class which
+ * can compute possible closures within a directed graph.
+ *
+ * @param <E>
+ * @version 1.0
+ * @author Rickard Marjanovic
+ */
 public class MyTransitiveClosure<E> implements TransitiveClosure<E> {
     /**
      * Computes the transitive closure for the graph.
@@ -38,6 +52,11 @@ public class MyTransitiveClosure<E> implements TransitiveClosure<E> {
 
     }
 
+    /**
+     * Helper method to check for null and throw an exception.
+     *
+     * @param dg a directed graph object of type E
+     */
     private void nullChecker(DirectedGraph<E> dg) {
         if (dg == null) {
             throw new NullPointerException();
